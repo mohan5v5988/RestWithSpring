@@ -1,11 +1,15 @@
 package org.mohan.app.dao;
 
+import java.sql.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.mohan.model.Payments;
+import org.mohan.model.Transactions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -55,5 +59,45 @@ public class PaymentsDB  implements IGenericsDB<Payments> {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(obj);
 		return 0;
+	}
+	
+	public List<Payments> getByCustomerId(String nid) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Payments.class);
+		criteria.add(Restrictions.eq("customer.nid", nid));
+		List<Payments> paymentsList = (List<Payments>) criteria.list();
+		return paymentsList;
+	}
+	
+	public List<Payments> getBetweenCustomerIdAndDate(String nid,Date d) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Payments.class);
+		criteria.add(Restrictions.eq("customer.nid", nid))
+				.add(Restrictions.eq("date", d));
+		List<Payments> paymentsList = (List<Payments>) criteria.list();
+		return paymentsList;
+	}
+	
+	public List<Payments> getBetweenCustomerIdAndDates(String nid,Date d1,Date d2) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Payments.class);
+		criteria.add(Restrictions.eq("customer.nid", nid))
+				.add(Restrictions.between("date", d1, d2));
+		List<Payments> paymentsList = (List<Payments>) criteria.list();
+		return paymentsList;
+	}
+	public List<Payments> getByDate(Date d1) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Payments.class);
+		criteria.add(Restrictions.eq("date", d1));
+		List<Payments> paymentsList = (List<Payments>) criteria.list();
+		return paymentsList;
+	}
+	public List<Payments> getBetweenDates(Date d1,Date d2) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Payments.class);
+		criteria.add(Restrictions.between("date", d1, d2));
+		List<Payments> paymentsList = (List<Payments>) criteria.list();
+		return paymentsList;
 	}
 }

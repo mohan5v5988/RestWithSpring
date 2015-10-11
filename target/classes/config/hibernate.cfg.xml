@@ -46,7 +46,7 @@
 		<property name="javax.persistence.validation.mode">none</property>
 		
         <!-- Names the annotated entity class -->
-        <mapping package="org.mohan.model" class="Customer"/>
+        <mapping  class="org.mohan.model.Customer"/>
         <mapping package="org.mohan.model" class="Type"/>
         <mapping package="org.mohan.model" class="Payments"/>
         <mapping package="org.mohan.model" class="Transactions"/>
