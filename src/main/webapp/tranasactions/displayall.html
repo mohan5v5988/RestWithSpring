@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link href="../main.css" rel="stylesheet" />
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+base_url = "http://localhost:8080/RestWithSpring/rest/transaction/";
+	$(document).ready(function() {
+		$("#but").on('click', function() {
+			
+			if( (!id.value) && (!nid.value) && (!date1.value) ) {
+				// no value is enterted.
+				alert ("Please Enter a any field to get the Payments");
+			} else if ( (date1.value) && (date2.value) ) {
+				base_url = base_url + "date/" + date1.value + "/" + date2.value;
+				if ( (nid.value) ) { base_url = base_url + "?nid=" + nid.value }
+			} else if( (!nid.value) ^ (!date1.value) ) {
+				base_url = base_url + "get?";
+				//will come when they enter either the nid or date 
+				if( (!nid.value) ) {
+					//when date is entered.
+					base_url = base_url + "date=" + date1.value;
+// 					alert("Date is enterted.");
+				} else if( (!date1.value) ){
+					//when nid is entered.
+					base_url = base_url + "nid=" + nid.value;
+// 					alert("nid is entered.");
+				}
+			} else if( (!id.value) ) {
+				// when both are entered.
+				base_url = base_url + "get?nid=" + nid.value + "&date=" + date1.value;
+// 				alert("nid and date is entered");
+			} else {
+				base_url = base_url + "get?tid=" + id.value;
+				// when id is entered.
+// 				alert("id is entered.");
+			}
+// 			alert(base_url);
+			$.getJSON(base_url, function(dat) {
+				console.log(dat);
+				$("div.type").html("");
+				$.each(dat, function(count, obj) {
+					$("div.type").append("<br/> ID : " + obj['tid'] + " Nid : " + obj['nid'] +
+							" Type : "+ obj['type'] + " Bags : " + obj['bags'] + " Total Amount : " + 
+							obj['totam'] + " Date : " + obj['date']);
+				})
+			});
+			base_url = "http://localhost:8080/RestWithSpring/rest/transaction/";
+		});
+		
+	});
+</script>
+</head>
+
+<body>
+<h1 style="text-align: center;">Display a new Transaction</h1>
+<br>
+	<br>
+	Please Enter the ID :<input type="text" name=hi id=id></input>
+	Please Enter the NID :<input type="text" name=hi id=nid></input>
+	Please Enter the From Date :<input type="text" name=hi id=date1></input>
+	Please Enter the To Date :<input type="text" name=hi id=date2></input>
+	<button id=but>GO</button>
+	<div class="type"></div>
+	<div>
+		<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Transactions"></a><br />
+		<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Transactions"></a><br />
+		<a href="delete.html"><INPUT TYPE="BUTTON" VALUE="Delete Transactions"></a><br />
+	</div>
+</body>
+</html>

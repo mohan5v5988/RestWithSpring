@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js">
+</script>
+<link href="../main.css" rel="stylesheet" />
+<script>
+base_url="http://localhost:8080/RestWithSpring/rest/customer";
+	$(document).ready(function() {
+		$.getJSON(base_url, function(dat) {
+			console.log(dat);
+			$.each(dat, function(count, obj) {
+				$("div.type").append("<br/> NID :" + obj['nid'] + " Name : " + obj['name'] +
+						" Address : "+obj['address'] + " Phone Number : " + obj['pnumber'] +
+						" Email : " + obj['email']);
+			})
+		});
+	});
+</script>
+</head>
+<body>
+<h1 style="text-align: center;">Display All </h1>
+<br>
+	<br>
+<div class = "type"></div>
+<div>
+	<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Customer"></a><br />
+	<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Customer"></a><br />
+	<a href="displaybyID.html"><INPUT TYPE="BUTTON" VALUE="Get Customer by id"></a><br />
+	<a href="displaybyName.html"><INPUT TYPE="BUTTON" VALUE="Get Customer by name"></a><br />
+	<a href="delete.html"><INPUT TYPE="BUTTON" VALUE="Delete Customer"></a><br />
+	</div>
+</body>
+</html>

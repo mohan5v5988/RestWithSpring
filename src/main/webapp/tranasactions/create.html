@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+base_url = "http://localhost:8080/RestWithSpring/rest/transaction";
+$(document).ready(function() {
+	$("#but").click(function() {
+		$("#div").html("");
+		var count = $("#bags").val();
+		while(count--) {
+			$("#div").append("<input type='text' id='bagkg"+count+"'><br />");
+		}
+	});
+	$("#but2").click(function() {
+		postData(hi());
+	});
+	function hi() {
+		var hi = {
+				"tid" : 0,
+				"nid" : $("#nid").val(),
+				"type": $("#type").val(),
+				"date" :$("#date").val(),
+				"coolie" :$("#coolie").val(),
+				"railway" :$("#railway").val(),
+				"rate" :$("#rate").val(),
+				"vat" :$("#vat").val(),
+				"bags" : $("#bags").val(),
+				"bagkg" : ""
+		};
+		var json = JSON.stringify(hi);
+		json1 = json.substring(0,json.length-3);
+		json3 = json1+array()+"}";
+		return json3;
+	}
+	function array() {
+		var arr = "[";
+		var count = $("#bags").val();
+		while(count--) {
+			arr = arr + $("#bagkg"+count).val();
+			if(count >0 ) {
+				arr = arr + ",";
+			}
+		}
+		arr = arr + "]";
+		return arr;
+	}
+	function postData(data) {
+		$.ajax({
+			type : "POST",
+			url : "http://localhost:8080/RestWithSpring/rest/transaction",
+			data : data,
+			contentType : "application/json; charset=utf-8",
+			crossDomain : true,
+			dataType : "json",
+			success : function(data, status, jqXHR) {
+				alert("success");
+			},
+			error : function(jqXHR, status) {
+				console.log(jqXHR);
+				alert("success");
+			}
+		});
+	}
+});
+</script>
+</head>
+<body>
+	Please Enter the NID : <input type="text" id="nid" ><br />
+	Please Enter the Type : <input type="text" id="type" ><br />
+	Please Enter the Rate : <input type="text" id="rate" ><br />
+	Please Enter the Date : <input type="text" id="date" ><br />
+	Please Enter the Coolie : <input type="text" id="coolie" ><br />
+	Please Enter the Railway : <input type="text" id="railway" ><br />
+	Please Enter the Vat : <input type="text" id="vat" ><br />
+	Please Enter the Bags : <input type="text" id="bags" >
+	<button id="but">click</button>
+	<div id="div">
+		
+	</div>
+	<button id="but2">click</button>
+	<div>
+		<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Transactions"></a><br />
+		<a href="displayall.html"><INPUT TYPE="BUTTON" VALUE="Get all Transactions"></a><br />
+		<a href="delete.html"><INPUT TYPE="BUTTON" VALUE="Delete Transactions"></a><br />
+	</div>
+</body>
+</html>

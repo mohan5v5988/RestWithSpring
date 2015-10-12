@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link href="../main.css" rel="stylesheet" />
+<script>
+	base_url = "http://localhost:8080/RestWithSpring/rest/type/";
+	$(document).ready(
+			function() {
+				$.getJSON(base_url, function(data) {
+					$.each(data, function(count, object) {
+						$("#options").append("<option value='"+object.type+"'>"+object.type+"</option>");
+					});
+				});
+				$("#options").change(function(){
+					console.log($(this).val());
+					getData($(this).val());
+				});
+				function getData(str) {
+					$.ajax({
+						type : "GET",
+						url : base_url + str,
+						success : function(data1, status, jqXHR) {
+							console.log(data1);
+							$("div.t").html("");
+							$("div.t").append(
+									"<br/><h1 style='text-align: center;'>Type : "
+											+ data1.type +" <br />Rate : " + data1.rate + "</h1>");
+						},
+						error : function(jqXHR, status) {
+							console.log(jqXHR);
+							$('#result').html('Type not Found !');
+						}
+					});
+				}
+			});
+</script>
+</head>
+<body>
+	<h1 style="text-align: center;">Display Type By ID</h1>
+	<br>
+	<br>
+	<br> Please Select the type which you want :
+	<select id='options'><option value='Select something'>Select something</option></select>
+	<div class="t"></div>
+	<div>
+		<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Type"></a><br />
+		<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Type"></a><br />
+		<a href="alltypes.html"><INPUT TYPE="BUTTON" VALUE="Get all Types"></a><br />
+		<a href="delete.html"><INPUT TYPE="BUTTON" VALUE="Delete Type"></a><br />
+	</div>
+</body>
+</html>

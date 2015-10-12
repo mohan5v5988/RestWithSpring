@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js">
+	
+</script>
+<link href="../main.css" rel="stylesheet" />
+<script>
+	//we are reusing this URL, somove it to a variable
+	base_url = "http://localhost:8080/RestWithSpring/rest/customer";
+	meta_url = "http://localhost:8080/RestWithSpring/rest/customer/metadata/";
+	$(document).ready(function() {
+			$.getJSON(meta_url,function(data) {
+				$.each(data,function(key, value) {
+					$("div.song_form").append("<br/>Please enter "+ key+ ":"+ "<input type='text' name='"+key+"'"+">");
+				});
+			});
+		$.fn.serializeObject = function() {
+			var o = {};
+			var a = this.serializeArray();
+			$.each(a, function() {
+				if (o[this.name]) {
+					if (!o[this.name].push) {
+						o[this.name] = [ o[this.name] ];
+					}
+					o[this.name].push(this.value || '');
+				} else {
+					o[this.name] = this.value || '';
+				}
+			});
+			return o;
+		};
+		$('#song_form').submit(function() {
+			console.log($('#song_form').serializeObject());
+			postData($('#song_form').serializeObject());
+			return false;
+			});
+			function postData(data) {
+				$.ajax({
+					type : "POST",
+					url : "http://localhost:8080/Mirchi/rest/customer",
+					data : JSON.stringify(data),
+					contentType : "application/json; charset=utf-8",
+					crossDomain : true,
+					dataType : "json",
+					success : function(data, status, jqXHR) {
+						alert("success");
+					},
+					error : function(jqXHR, status) {
+						console.log(jqXHR);
+						alert("success");
+					}
+				});
+			}
+		});
+</script>
+</head>
+<body>
+	<h1 style="text-align: center;">Create a new Customer</h1>
+	<form id="song_form">
+		<div class="song_form"></div>
+		<input type="Submit">
+	</form>
+	<div>
+	<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Customer"></a><br />
+	<a href="displayall.html"><INPUT TYPE="BUTTON" VALUE="Get all Customer"></a><br />
+	<a href="displaybyID.html"><INPUT TYPE="BUTTON" VALUE="Get Customer by id"></a><br />
+	<a href="displaybyName.html"><INPUT TYPE="BUTTON" VALUE="Get Customer by name"></a><br />
+	<a href="delete.html"><INPUT TYPE="BUTTON" VALUE="Delete Customer"></a><br />
+	</div>
+</body>
+</html>

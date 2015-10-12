@@ -1,0 +1,188 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>API Documentation</title>
+<style>
+h1 {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<fieldset>
+		<h1>API Documentation</h1>
+		<p>This is the Application used by the Business Man to keep track
+			of his transactions,payments,customers,type of products and the
+			amount due by the customers.</p>
+	</fieldset>
+	<br />
+	<br />
+	<fieldset>
+		<h1>Customer</h1>
+		<h3>HTML : "/customer/customer.html"</h3>
+		<h2>1. Creating a Customer</h2>
+		<h3>@POST : "/rest/customer"</h3>
+		<h3>HTML : "/customer/create.html"</h3>
+		<p>
+			This page will take the customer's information and store it to the
+			database. The id of the customer which is called nid should be unique
+			and it is a string. Once the nid is created you can't change the
+			value.<br /> Parameters consumed : { "nid": "", "name": "",
+			"address": "", "pnumber": , "email": "", "date": "" }<br /> The date
+			should be in this formate : yyyy/mm/dd.
+		</p>
+		<h2>2. Updating a Customer</h2>
+		<h3>@POST : "/rest/customer/{nid}"</h3>
+		<h3>HTML : "/customer/update.html"</h3>
+		<p>
+			This page will give you the list of customers nid in a drop down Box
+			then you can select one of the nid and update the data. you can't
+			change the nid value.<br />Parameters consumed : { "name": "",
+			"address": "", "pnumber": , "email": "", "date": "" }<br /> The date
+			should be in this formate : yyyy/mm/dd.
+		</p>
+		<h2>3. Display Customers</h2>
+		<h3>@GET : "/rest/customer"</h3>
+		<h3>HTML : "/customer/displayall.html"</h3>
+		<p>This page will get all the customers in the table and desplay
+			them.</p>
+		<h3>@GET : "/rest/customer/get?nid='' "</h3>
+		<h3>HTML : "/customer/displaybyID.html"</h3>
+		<p>This page will get the information of the customer whose nid is
+			called.</p>
+		<h3>@GET : "/rest/customer/get?name='' "</h3>
+		<h3>HTML : "/customer/displaybyName.html"</h3>
+		<p>This will get the information of the customer whose name is
+			called.</p>
+		<h2>4. Delete customer</h2>
+		<h3>@DELETE : "/rest/customer"</h3>
+		<h3>HTML : "/customer/delete.html"</h3>
+		<p>This page will take the nid of the customer and delete that
+			customer</p>
+	</fieldset>
+	<br />
+	<fieldset>
+		<h1>Type</h1>
+		<h3>HTML : "/type/type.html"</h3>
+		<p>These are the types which the business man sell.</p>
+		<h2>1. Creating Type</h2>
+		<h3>@POST : "/rest/type"</h3>
+		<h3>HTML : "/type/create.html"</h3>
+		<p>
+			This page will take the type information and store the values in the
+			database. The type name should be unique.<br />Parameters consumed :
+			{ "type": "", "rate": }
+		</p>
+		<h2>2. Updating a Type</h2>
+		<h3>@POST : "/rest/type/{type}"</h3>
+		<h3>HTML : "/type/update.html"</h3>
+		<p>
+			If the user want to change the rate of the type he can do it.<br />Parameters
+			consumed : { "type": "", "rate": }
+		</p>
+		<h2>3. Display Types</h2>
+		<h3>@GET : "/rest/type"</h3>
+		<h3>HTML : "/type/alltypes.html"</h3>
+		<p>This will get all the types in the database.</p>
+		<h3>@GET : "/rest/type/{type}"</h3>
+		<h3>HTML : "/type/DisplayTbyID.html"</h3>
+		<p>This will get the information of the type whose id is called.</p>
+		<h2>4. Delete Type</h2>
+		<h3>@DELETE : "/rest/type"</h3>
+		<h3>HTML : "/type/delete.html"</h3>
+		<p>This page will take the id of the type and delete that type</p>
+	</fieldset>
+	<br />
+	<fieldset>
+		<h1>Due</h1>
+		<h3>@GET : "/rest/payment/due/{nid}"</h3>
+		<h3>HTML : "/due/due.html"</h3>
+		<p>This will display the amount that user should give to the
+			business man.</p>
+	</fieldset>
+	<br />
+	<fieldset>
+		<h1>Transactions</h1>
+		<h3>HTML : "/tranasactions/tranasactions.html"</h3>
+		<h2>1. Creating Transactions</h2>
+		<h3>@POST : "/rest/transaction"</h3>
+		<h3>HTML : "/tranasactions/create.html"</h3>
+		<p>
+			This page will take the transaction information and send it to the
+			database. <br /> Parameters consumed : { "date": "2015-02-29",
+			"nid": "mv", "type": "teja", "tid": 0, "bags": 5, "coolie": 5, "vat":
+			5, "rate": 130, "bagkg": [ 45,42.5,36.5,52.8,47 ],"railway": 6}
+		</p>
+		<h2>2. Updating a Transactions</h2>
+		<h3>@POST : "/rest/transaction/update/{tid}"</h3>
+		<h3>HTML : "/tranasactions/update.html"</h3>
+		<p>
+			This page will update the transaction information. <br /> Parameters
+			consumed : { "date": "2015-02-29", "nid": "mv", "type": "teja",
+			"tid": 0, "bags": 5, "coolie": 5, "vat": 5, "rate": 130, "bagkg": [
+			45,42.5,36.5,52.8,47 ],"railway": 6}
+		</p>
+		<h2>3. Display Transactions</h2>
+		<h3>HTML : "/tranasactions/displayall.html"</h3>
+		<h3>@GET : "/rest/transaction"</h3>
+		<p>This will get all the transaction in the database.</p>
+		<h3>@GET : "/rest/transaction/get?tid="</h3>
+		<p>This will get the transaction based on ID.</p>
+		<h3>@GET : "/rest/transaction/get?nid="</h3>
+		<p>This will get the transaction based on nid.</p>
+		<h3>@GET : "/rest/transaction/get?date="</h3>
+		<p>This will get the transaction based on date.</p>
+		<h3>@GET : "/rest/transaction/date/{date1}/{date2}"</h3>
+		<p>This will get the transaction between the two date.</p>
+		<h3>@GET : "/rest/transaction/date/{date1}/{date2}?nid="</h3>
+		<p>This will get the transaction between the two date and the nid.
+		</p>
+		<h2>4. Delete Transactions</h2>
+		<h3>@DELETE : "/rest/transaction"</h3>
+		<h3>HTML : "/tranasactions/delete.html"</h3>
+		<p>This page will ask for the ID of the transaction which user
+			want to delete and deletes in the database.</p>
+	</fieldset>
+	<br />
+	<fieldset>
+		<h1>Payments</h1>
+		<h3>HTML : "/payments/payments.html"</h3>
+		<h2>1. Creating Payments</h2>
+		<h3>@POST : "/rest/payment"</h3>
+		<h3>HTML : "/payments/create.html"</h3>
+		<p>
+			This page will take the payment information and send it to the
+			database. <br /> Parameters consumed : { "nid" :"mv", "amount" :
+			"982", "date" : "2015-02-28" }
+		</p>
+		<h2>2. Updating a Payments</h2>
+		<h3>@POST : "/rest/payment/{id}"</h3>
+		<h3>HTML : "/payments/update.html"</h3>
+		<p>
+			This page will update the payment information.<br /> Parameters
+			consumed : { "nid" :"mv", "amount" : "982", "date" : "2015-02-28" }
+		</p>
+		<h2>3. Display Payments</h2>
+		<h3>HTML : "/payments/displayall.html"</h3>
+		<h3>@GET : "/rest/payment"</h3>
+		<p>This will get all the payment in the database.</p>
+		<h3>@GET : "/rest/payment/get?id="</h3>
+		<p>This will get the payment based on ID.</p>
+		<h3>@GET : "/rest/payment/get?nid="</h3>
+		<p>This will get the payment based on nid.</p>
+		<h3>@GET : "/rest/payment/get?date="</h3>
+		<p>This will get the payment based on date.</p>
+		<h3>@GET : "/rest/payment/date/{date1}/{date2}"</h3>
+		<p>This will get the payment between the two date.</p>
+		<h3>@GET : "/rest/payment/date/{date1}/{date2}?nid="</h3>
+		<p>This will get the payment between the two date and the nid.</p>
+		<h2>4. Delete Payments</h2>
+		<h3>@DELETE : "/rest/payment"</h3>
+		<h3>HTML : "/payments/delete.html"</h3>
+		<p>This page will ask for the ID of the payment which user want to
+			delete and deletes in the database.</p>
+	</fieldset>
+</body>
+</html>

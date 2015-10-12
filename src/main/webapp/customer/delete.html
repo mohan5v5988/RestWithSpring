@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../main.css" rel="stylesheet" />
+<script src="http://code.jquery.com/jquery-latest.min.js">
+</script>
+<script>
+//we are reusing this URL, somove it to a variable
+base_url="http://localhost:8080/RestWithSpring/rest/customer/";
+$(document).ready(function(){
+	console.log("hi");
+	$.getJSON(base_url, function(data) {
+		console.log(data);
+		$.each(data, function(count, object) {
+			$("#options").append("<option value='"+object.nid+"'>"+object.nid+"</option>");
+		});
+	});
+	
+	$("#dbut").on('click', function() {
+// 		alert($("#options").val());
+// 		console.log($("#options").val());
+		deleteData($("#options").val());
+	})
+    function deleteData(ids){
+        $.ajax({
+                type: "DELETE",
+                url: base_url+ids,
+                success: function (data, status, jqXHR) {
+                    alert("deleted");
+                },
+                error: function (jqXHR, status) {
+                    console.log(status);
+                    alert('failed, please check console for errors');
+                }
+             });
+       }
+});
+</script>
+</head>
+<body>
+<h1 style="text-align:center;">Delete a Customer</h1>
+Please Select the type which you want :
+	<select id='options'><option value='Select something'>Select something</option></select>
+	<button id="dbut">Delete</button>
+	<div>
+	<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Customer"></a><br />
+	<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Customer"></a><br />
+	<a href="displayall.html"><INPUT TYPE="BUTTON" VALUE="Get all Customer"></a><br />
+	<a href="displaybyID.html"><INPUT TYPE="BUTTON" VALUE="Get Customer by id"></a><br />
+	<a href="displaybyName.html"><INPUT TYPE="BUTTON" VALUE="Get Customer by name"></a><br />
+	</div>
+</body>
+</html>

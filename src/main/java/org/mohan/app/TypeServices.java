@@ -1,5 +1,6 @@
 package org.mohan.app;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("type")
@@ -33,6 +35,21 @@ public class TypeServices {
 	@Qualifier("typeDB")
 	TypeDB typeDB;
 
+	@GET
+	@Path("metadata")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getSongMeta() {
+		Type type = new Type();
+		try {
+			@SuppressWarnings("unchecked")
+			HashMap songHM = mapper.convertValue(type, HashMap.class);
+			return Response.status(200).entity(mapper.writeValueAsString(songHM)).build();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return Response.status(500).build();
+	}
+	
 	// Browse all Types
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })

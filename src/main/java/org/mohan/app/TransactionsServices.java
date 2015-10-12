@@ -1,6 +1,7 @@
 package org.mohan.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -19,9 +20,9 @@ import org.mohan.app.dao.TransactionsDB;
 import org.mohan.model.Transactions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -35,6 +36,21 @@ public class TransactionsServices {
 	@Qualifier("transactionsDB")
 	TransactionsDB transactionsDB;
 
+	@GET
+	@Path("metadata")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getSongMeta() {
+		Transactions t = new Transactions();
+		try {
+			@SuppressWarnings("unchecked")
+			HashMap songHM = mapper.convertValue(t, HashMap.class);
+			return Response.status(200).entity(mapper.writeValueAsString(songHM)).build();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return Response.status(500).build();
+	}
+	
 	// get all
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })

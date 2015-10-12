@@ -2,6 +2,7 @@ package org.mohan.app;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.mohan.app.dao.CustomerDB;
 import org.mohan.model.Customer;
@@ -36,82 +38,123 @@ public class CustomerServices {
 	@Qualifier("customerDB")
 	CustomerDB customerDB;
 
+	// get metadata
 	@GET
+	@Path("metadata")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public String getAll() {
-		List<Customer> c = customerDB.getAll();
-		String out = null;
+	public Response getSongMeta() {
+		Customer cus = new Customer();
 		try {
-			out = mapper.writeValueAsString(c);
+			@SuppressWarnings("unchecked")
+			HashMap songHM = mapper.convertValue(cus, HashMap.class);
+			// songHM.remove("id");
+			return Response.status(200).entity(mapper.writeValueAsString(songHM)).build();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return out;
+		return Response.status(500).build();
 	}
 
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response browseCustomers(@QueryParam("offset") int offset, @QueryParam("count") int count) {
+		List<Customer> list = customerDB.getAll();
+		String customerString = null;
+		try {
+			customerString = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Response.status(200).entity(customerString).build();
+	}
+
+	// get customers by Id or name
 	@GET
 	@Path("/get")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public String getCustomer(@DefaultValue("nothing") @QueryParam("nid") String nid,
+	public Response getCustomers(@DefaultValue("nothing") @QueryParam("nid") String nid,
 			@DefaultValue("nothing") @QueryParam("name") String name) {
-		String out = null;
-
-		List<Customer> list = null;
-		Customer c = null;
 		Customer cus = new Customer();
-		cus.setNid(nid);
-		cus.setName(name);
 		if (nid.equals("nothing") && name.equals("nothing")) {
-			return null;
+			return Response.status(Response.Status.BAD_REQUEST).entity("Please enter any value to search.").build();
 		} else if (name.equals("nothing")) {
-			c = customerDB.getByPK(cus);
-			list = new ArrayList<Customer>();
-			list.add(c);
+			cus.setNid(nid);
+			String customerString = null;
+			try {
+				customerString = mapper.writeValueAsString(customerDB.getByPK(cus));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Response.status(200).entity(customerString).build();
 		} else {
-			list = customerDB.getByCName(cus);
+			cus.setName(name);
+			String customerString = null;
+			try {
+				customerString = mapper.writeValueAsString(customerDB.getByCName(cus));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Response.status(200).entity(customerString).build();
 		}
-		try {
-			out = mapper.writeValueAsString(list);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return out;
 	}
 
+	// Add a customer
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
-	public void add(String payload) {
-		Customer customer = null;
+	public Response createCustomer(String payload) {
+		Customer c = null;
+		String i = "";
 		try {
-			customer = mapper.readValue(payload, Customer.class);
-			customerDB.add(customer);
-		} catch (IOException e) {
-			e.printStackTrace();
+			c = mapper.readValue(payload, Customer.class);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Response.status(400).entity("could not read string").build();
 		}
+		try {
+			customerDB.add(c);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Response.status(500).build();
+		}
+		return Response.status(200).entity(i).build();
 	}
 
+	// Update a song
 	@POST
 	@Path("{nid}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
-	public void update(String payload, @PathParam("nid") String id) {
-		Customer customer = null;
+	public Response updateCustomer(String payload, @PathParam("nid") String nid) {
+		Customer t = null;
 		try {
-			customer = mapper.readValue(payload, Customer.class);
-			customer.setNid(id);
-			customerDB.update(customer);
-		} catch (IOException e) {
-			e.printStackTrace();
+			t = mapper.readValue(payload, Customer.class);
+			t.setNid(nid);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Response.status(400).entity("could not read string").build();
 		}
+		try {
+			customerDB.update(t);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Response.status(500).build();
+		}
+		return Response.status(200).build();
 	}
 
 	// Delete a customer
 	@DELETE
 	@Path("{nid}")
-	public void delete(@PathParam("nid") String nid) {
-		Customer customer = new Customer();
-		customer.setNid(nid);
-		customerDB.delete(customer);
+	public Response deleteCustomer(@PathParam("nid") String nid) {
+		Customer obj = new Customer();
+		obj.setNid(nid);
+		try {
+			customerDB.delete(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Response.status(500).build();
+		}
+		return Response.status(200).build();
 	}
 }

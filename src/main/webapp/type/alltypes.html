@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js">
+</script>
+<link href="../main.css" rel="stylesheet" />
+<script>
+base_url="http://localhost:8080/RestWithSpring/rest/type";
+	$(document).ready(function() {
+		$.getJSON(base_url, function(dat) {
+			console.log(dat);
+			$.each(dat, function(count, obj) {
+				$("div.type").append("<br/>" + obj['type'] + " = " + obj['rate']+ " ");
+			})
+		});
+	});
+</script>
+</head>
+<body>
+<h1 style="text-align: center;">Display All Types</h1>
+<br>
+	<br>
+<div class = "type"></div>
+<div>
+	<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Type"></a><br />
+	<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Type"></a><br />
+	<a href="DisplyTbyID.html"><INPUT TYPE="BUTTON" VALUE="Get Type by id"></a><br />
+	<a href="delete.html"><INPUT TYPE="BUTTON" VALUE="Delete Type"></a><br />
+	</div>
+</body>
+</html>

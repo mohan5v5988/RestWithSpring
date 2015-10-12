@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../main.css" rel="stylesheet" />
+<script src="http://code.jquery.com/jquery-latest.min.js">
+</script>
+<script>
+//we are reusing this URL, somove it to a variable
+base_url="http://localhost:8080/RestWithSpring/rest/payment/";
+meta_url="http://localhost:8080/RestWithSpring/rest/payment/metadata";
+$(document).ready(function(){
+	$.getJSON(base_url, function(data) {
+		$.each(data, function(count, object) {
+			$("#options").append("<option value='"+object.id+"'>"+object.id+"</option>");
+		});
+	});
+	
+	$("#options").change(function(){
+// 		alert($("#options").val());
+// 		$("div.type").html("");
+		$.getJSON(meta_url,function(data) {
+			$.each(data,function(key, value) {
+				$("div.song_form").append("<br/>Please enter "+ key+ ":"+ "<input type='text' name='"+key+"'"+">");
+			});
+		});
+	});
+	$.fn.serializeObject = function() {
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name]) {
+				if (!o[this.name].push) {
+					o[this.name] = [ o[this.name] ];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+	$('#song_form').submit(function() {
+		console.log($('#song_form').serializeObject());
+		postData($('#song_form').serializeObject());
+		return false;
+	});
+	function postData(data) {
+		$.ajax({
+			type : "POST",
+			url : base_url + $("#options").val(),
+			data : JSON.stringify(data),
+			contentType : "application/json; charset=utf-8",
+			crossDomain : true,
+			dataType : "json",
+			success : function(data, status, jqXHR) {
+				alert("success");
+			},
+			error : function(jqXHR, status) {
+				console.log(jqXHR);
+				alert("success");
+			}
+		});
+	}
+});
+</script>
+</head>
+<body>
+<h1 style="text-align:center;">Update a Payment</h1>
+<br>
+	<br>
+Please Select the type which you want :
+	<select id='options'><option value='Select something'>Select something</option></select>
+	<form id="song_form">
+		<div class="song_form"></div>
+		<input type="Submit">
+	</form>
+	<div>
+		<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Payment"></a><br />
+		<a href="displayall.html"><INPUT TYPE="BUTTON" VALUE="Get all Payment"></a><br />
+		<a href="delete.html"><INPUT TYPE="BUTTON" VALUE="Delete Payment"></a><br />
+	</div>
+</body>
+</html>
