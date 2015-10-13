@@ -42,8 +42,9 @@ public class TypeServices {
 		Type type = new Type();
 		try {
 			@SuppressWarnings("unchecked")
-			HashMap songHM = mapper.convertValue(type, HashMap.class);
-			return Response.status(200).entity(mapper.writeValueAsString(songHM)).build();
+			HashMap typeHM = mapper.convertValue(type, HashMap.class);
+			typeHM.remove("active");
+			return Response.status(200).entity(mapper.writeValueAsString(typeHM)).build();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -90,6 +91,7 @@ public class TypeServices {
 		Type c = null;
 		try {
 			c = mapper.readValue(payload, Type.class);
+			c.setActive(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Response.status(400).entity("could not read string").build();

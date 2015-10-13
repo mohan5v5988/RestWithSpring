@@ -28,7 +28,9 @@ public class TypeDB implements IGenericsDB<Type> {
 
 	public Type getByPK(Type obj) {
 		Session session = sessionFactory.openSession();
-		Query query = session.createQuery("from Type where type = ?").setString(0, obj.getType());
+		Query query = session.createQuery("from Type where type = ? and Active = ?")
+							 .setString(0, obj.getType())
+							 .setBoolean(1, true);
 		Type type = (Type) query.uniqueResult();
 		return type;
 	}
@@ -37,24 +39,30 @@ public class TypeDB implements IGenericsDB<Type> {
 	public int delete(Type obj) {
 		Session session = sessionFactory.getCurrentSession();
 		Type type = (Type) session.get(Type.class, obj.getType());
-		session.delete(type);
+		type.setActive(false);
+		update(type);
 		return 0;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public int add(Type obj) {
 		Session session = sessionFactory.getCurrentSession();
-		try {
+		Type type = (Type) session.get(Type.class, obj.getType());
+		if(type == null) {
 			session.save(obj);
-		} catch (Exception ex){
-			obj.setActive(true); // not yet done
+		} else {
+			obj.setActive(true);
+			session.flush();
+			update(obj);
 		}
+			
 		return 0;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public int update(Type obj) {
 		Session session = sessionFactory.getCurrentSession();
+		session.clear();
 		session.update(obj);
 		return 0;
 	}

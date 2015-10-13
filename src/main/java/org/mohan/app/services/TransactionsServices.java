@@ -43,8 +43,14 @@ public class TransactionsServices {
 		Transactions t = new Transactions();
 		try {
 			@SuppressWarnings("unchecked")
-			HashMap songHM = mapper.convertValue(t, HashMap.class);
-			return Response.status(200).entity(mapper.writeValueAsString(songHM)).build();
+			HashMap tranHM = mapper.convertValue(t, HashMap.class);
+//			HashMap<String, String> aa = new HashMap<String, String>();
+//			aa.put("date", null);
+//			aa.put("Nid", null);
+//			aa.put("Type", null);
+//			aa.put("rate", null);
+//			System.out.println(aa);
+			return Response.status(200).entity(mapper.writeValueAsString(tranHM)).build();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

@@ -4,12 +4,17 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 base_url = "http://localhost:8080/RestWithSpring/rest/transaction";
+meta_url = "http://localhost:8080/RestWithSpring/rest/transaction/metadata/";
 $(document).ready(function() {
+	$.getJSON(meta_url,function(data) {
+		console.log(data)
+	});
 	$("#but").click(function() {
 		$("#div").html("");
 		var count = $("#bags").val();
 		while(count--) {
-			$("#div").append("<input type='text' id='bagkg"+count+"'><br />");
+			$("#t2").append("<tr><td> Please enter the wieght of bag " + (count+1) + 
+					"</td><td><input type='text' id='bagkg"+count+"'></td></tr>");
 		}
 	});
 	$("#but2").click(function() {
@@ -66,19 +71,53 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-	Please Enter the NID : <input type="text" id="nid" ><br />
-	Please Enter the Type : <input type="text" id="type" ><br />
-	Please Enter the Rate : <input type="text" id="rate" ><br />
-	Please Enter the Date : <input type="text" id="date" ><br />
-	Please Enter the Coolie : <input type="text" id="coolie" ><br />
-	Please Enter the Railway : <input type="text" id="railway" ><br />
-	Please Enter the Vat : <input type="text" id="vat" ><br />
-	Please Enter the Bags : <input type="text" id="bags" >
-	<button id="but">click</button>
-	<div id="div">
-		
-	</div>
-	<button id="but2">click</button>
+	<table id = "table" >
+			<tr>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>Please Enter the NID</td>
+				<td><input type="text" id="nid" ></td>
+			</tr>
+			<tr>
+				<td>Please Enter the Type</td>
+				<td><input type="text" id="type" ></td>
+			</tr>
+			<tr>
+				<td>Please Enter the Rate</td>
+				<td><input type="text" id="rate" ></td>
+			</tr>
+			<tr>
+				<td>Please Enter the Date</td>
+				<td><input type="text" id="date" ></td>
+			</tr>
+			<tr>
+				<td>Please Enter the Coolie</td>
+				<td><input type="text" id="coolie" ></td>
+			</tr>
+			<tr>
+				<td>Please Enter the Railway</td>
+				<td><input type="text" id="railway" ></td>
+			</tr>
+			<tr>
+				<td>Please Enter the Vat</td>
+				<td><input type="text" id="vat" ></td>
+			</tr>
+			<tr>
+				<td>Please Enter the no of Bags</td>
+				<td><input type="text" id="bags" ></td>
+				<td><button id="but">click</button></td>
+			</tr>
+	</table>
+	<table id = "t2">
+		<tr>
+			<th></th>
+			<th></th>
+		</tr>
+	</table>
+	<button id="but2">submit</button>
 	<div>
 		<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Transactions"></a><br />
 		<a href="displayall.html"><INPUT TYPE="BUTTON" VALUE="Get all Transactions"></a><br />

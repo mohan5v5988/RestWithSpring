@@ -9,6 +9,7 @@
 	meta_url = "http://localhost:8080/RestWithSpring/rest/payment/metadata/";
 	$(document).ready(function() {
 			$.getJSON(meta_url,function(data) {
+				console.log(data)
 				$.each(data,function(key, value) {
 					$("#table").append("<tr><td>Please enter "+ key + "</td><td><input type='text' name='" +key+"'" + "></td></tr>");
 				});
