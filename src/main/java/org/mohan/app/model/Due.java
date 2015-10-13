@@ -1,4 +1,4 @@
-package org.mohan.model;
+package org.mohan.app.model;
 
 public class Due {
 	private String nid;

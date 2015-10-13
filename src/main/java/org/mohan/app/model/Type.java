@@ -1,4 +1,4 @@
-package org.mohan.model;
+package org.mohan.app.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

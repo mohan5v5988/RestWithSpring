@@ -1,4 +1,4 @@
-package org.mohan.model;
+package org.mohan.app.model;
 
 import java.sql.Date;
 

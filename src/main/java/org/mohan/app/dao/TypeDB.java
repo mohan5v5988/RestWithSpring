@@ -1,12 +1,13 @@
 package org.mohan.app.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.mohan.model.Type;
+import org.mohan.app.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,38 +21,42 @@ public class TypeDB implements IGenericsDB<Type> {
 
 	public List<Type> getAll() {
 		Session session = sessionFactory.openSession();
-		Query query = session.createQuery("from Type where active = ?")
-							.setBoolean(0, true);
+		Query query = session.createQuery("from Type where Active = ?").setBoolean(0, true);
 		List<Type> list = (List<Type>) query.list();
 		return list;
 	}
 
 	public Type getByPK(Type obj) {
 		Session session = sessionFactory.openSession();
-		Query query = session.createQuery("from Type where type = ?")
-				.setString(0, obj.getType());
+		Query query = session.createQuery("from Type where type = ?").setString(0, obj.getType());
 		Type type = (Type) query.uniqueResult();
 		return type;
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int delete(Type obj) {
 		Session session = sessionFactory.getCurrentSession();
-		Type type = (Type)session.get(Type.class, obj.getType());
+		Type type = (Type) session.get(Type.class, obj.getType());
 		session.delete(type);
 		return 0;
 	}
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int add(Type obj) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(obj);
+		try {
+			session.save(obj);
+		} catch (Exception ex){
+			obj.setActive(true); // not yet done
+		}
 		return 0;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int update(Type obj) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(obj);
 		return 0;
 	}
+
 }

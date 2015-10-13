@@ -10,7 +10,9 @@ base_url="http://localhost:8080/RestWithSpring/rest/type";
 		$.getJSON(base_url, function(dat) {
 			console.log(dat);
 			$.each(dat, function(count, obj) {
-				$("div.type").append("<br/>" + obj['type'] + " = " + obj['rate']+ " ");
+				$("#table").append(
+						"<tr><td>" + obj['type'] + "</td><td>"
+								+ obj['rate'] + "</td></tr>");
 			})
 		});
 	});
@@ -19,8 +21,12 @@ base_url="http://localhost:8080/RestWithSpring/rest/type";
 <body>
 <h1 style="text-align: center;">Display All Types</h1>
 <br>
-	<br>
-<div class = "type"></div>
+<table id="table" align = "center" border="1">
+		<tr>
+			<th>Name</th>
+			<th>Rate</th>
+		</tr>
+	</table>
 <div>
 	<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Type"></a><br />
 	<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Type"></a><br />
