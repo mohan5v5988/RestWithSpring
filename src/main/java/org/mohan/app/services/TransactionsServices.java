@@ -1,4 +1,4 @@
-package org.mohan.app;
+package org.mohan.app.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
