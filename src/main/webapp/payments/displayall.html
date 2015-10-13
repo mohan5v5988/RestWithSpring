@@ -42,8 +42,11 @@ base_url = "http://localhost:8080/RestWithSpring/rest/payment/";
 				console.log(dat);
 				$("div.type").html("");
 				$.each(dat, function(count, obj) {
-					$("div.type").append("<br/> ID : " + obj['id'] + " NID : " + obj['nid'] +
-							" Date : " + obj['date'] + " Amount : " + obj['amount']);
+					$("#table").append(
+							"<tr><td>" + obj['id'] + "</td><td>"
+									+ obj['customer']['nid'] + "</td><td>"
+									+ obj['date'] + "</td><td>"
+									+ obj['amount'] + "</td></tr>");
 				})
 			});
 			base_url = "http://localhost:8080/Mirchi/rest/payment/";
@@ -62,7 +65,14 @@ base_url = "http://localhost:8080/RestWithSpring/rest/payment/";
 	Please Enter the From Date :<input type="text" name=hi id=date1></input>
 	Please Enter the To Date :<input type="text" name=hi id=date2></input>
 	<button id=but>GO</button>
-	<div class="type"></div>
+	<table id="table" align = "center" border="1">
+		<tr>
+			<th>ID</th>
+			<th>NID</th>
+			<th>date</th>
+			<th>amount</th>
+		</tr>
+	</table>
 	<div>
 		<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Payment"></a><br />
 		<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Payment"></a><br />

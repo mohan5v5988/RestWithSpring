@@ -11,6 +11,9 @@ public class Type {
 	private boolean active;
 	
 	public Type() { }
+	public Type(String type) {
+		this.type = type;
+	}
 	public Type(String type,double rate,boolean active) {
 		this.type = type;
 		this.rate = rate;

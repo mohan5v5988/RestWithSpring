@@ -48,8 +48,8 @@
         <!-- Names the annotated entity class -->
         <mapping class="org.mohan.app.model.Customer"/>
         <mapping class="org.mohan.app.model.Type"/>
-        <mapping package="org.mohan.app.model" class="Payments"/>
-        <mapping package="org.mohan.app.model" class="Transactions"/>
+        <mapping class="org.mohan.app.model.Payments"/>
+        <mapping class="org.mohan.app.model.Transactions"/>
 
     </session-factory>
 

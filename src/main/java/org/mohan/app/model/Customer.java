@@ -19,6 +19,9 @@ public class Customer {
 		
 	}
 	
+	public Customer(String nid) {
+		this.nid = nid;
+	}
 	public Customer(String nid,String name,String address,String email,Date date,long pnumber){
 		this.nid = nid;
 		this.name = name;
