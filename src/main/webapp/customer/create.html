@@ -12,7 +12,7 @@
 	$(document).ready(function() {
 			$.getJSON(meta_url,function(data) {
 				$.each(data,function(key, value) {
-					$("div.song_form").append("<br/>Please enter "+ key+ ":"+ "<input type='text' name='"+key+"'"+">");
+					$("#table").append("<tr><td>Please enter "+ key + "</td><td><input type='text' name='" +key+"'" + "></td></tr>");
 				});
 			});
 		$.fn.serializeObject = function() {
@@ -30,15 +30,15 @@
 			});
 			return o;
 		};
-		$('#song_form').submit(function() {
-			console.log($('#song_form').serializeObject());
-			postData($('#song_form').serializeObject());
+		$('#form').submit(function() {
+			console.log($('#form').serializeObject());
+			postData($('#form').serializeObject());
 			return false;
 			});
 			function postData(data) {
 				$.ajax({
 					type : "POST",
-					url : "http://localhost:8080/Mirchi/rest/customer",
+					url : "http://localhost:8080/RestWithSpring/rest/customer",
 					data : JSON.stringify(data),
 					contentType : "application/json; charset=utf-8",
 					crossDomain : true,
@@ -57,8 +57,14 @@
 </head>
 <body>
 	<h1 style="text-align: center;">Create a new Customer</h1>
-	<form id="song_form">
-		<div class="song_form"></div>
+	<form id="form">
+		<table id = "table" >
+			<tr>
+				<th></th>
+				<th></th>
+			</tr>
+			
+		</table>
 		<input type="Submit">
 	</form>
 	<div>

@@ -17,7 +17,7 @@
 					console.log($(this).val());
 					$.getJSON(meta_url,function(data) {
 						$.each(data,function(key, value) {
-							$("div.song_form").append("<br/>Please enter "+ key+ ":"+ "<input type='text' name='"+key+"'"+">");
+							$("#table").append("<tr><td>Please enter "+ key + "</td><td><input type='text' name='" +key+"'" + "></td></tr>");
 						});
 					});
 				});
@@ -37,9 +37,9 @@
 					});
 					return o;
 				};
-				$('#song_form').submit(function() {
-					console.log($('#song_form').serializeObject());
-					postData($('#song_form').serializeObject());
+				$('#form').submit(function() {
+					console.log($('#form').serializeObject());
+					postData($('#form').serializeObject());
 					return false;
 				});
 				function postData(data) {
@@ -59,7 +59,6 @@
 						}
 					});
 				}
-				
 			});
 </script>
 </head>
@@ -69,8 +68,13 @@
 	<br>
 	<br> Please Select the customer you want :
 	<select id='options'><option value='Select something'>Select something</option></select>
-	<form id="song_form">
-		<div class="song_form"></div>
+	<form id="form">
+		<table id = "table" >
+			<tr>
+				<th></th>
+				<th></th>
+			</tr>
+		</table>
 		<input type="Submit">
 	</form>
 	<div>

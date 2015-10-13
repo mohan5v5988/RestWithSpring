@@ -22,10 +22,12 @@
 						url : base_url + "/get?nid=" + str,
 						success : function(data1, status, jqXHR) {
 							console.log(data1);
-							$("div.t").html("");
-							$("div.t").append("<br/><h1 style='text-align: center;'>"+" NID :" + data1['nid'] + 
-							" Name : " + data1.name + " Address : "+data1.address + 
-							" Phone Number : " + data1.pnumber + " Email : " + data1.email + "</h1>");
+							$("#table").append(
+									"<tr><td>" + data1['nid'] + "</td><td>"
+											+ data1['name'] + "</td><td>"
+											+ data1['address'] + "</td><td>"
+											+ data1['pnumber'] + "</td><td>"
+											+ data1['email'] + "</td></tr>");
 						},
 						error : function(jqXHR, status) {
 							console.log(jqXHR);
@@ -42,7 +44,15 @@
 	<br>
 	<br> Please Select the customer you want :
 	<select id='options'><option value='Select something'>Select something</option></select>
-	<div class="t"></div>
+	<table id="table" style="text-align: center;" border="1">
+		<tr>
+			<th>NID</th>
+			<th>Name</th>
+			<th>Address</th>
+			<th>Phone Number</th>
+			<th>Email</th>
+		</tr>
+	</table>
 	<div>
 	<a href="create.html"><INPUT TYPE="BUTTON" VALUE="Create Customer"></a><br />
 	<a href="update.html"><INPUT TYPE="BUTTON" VALUE="Update Customer"></a><br />

@@ -46,9 +46,9 @@ public class CustomerServices {
 		Customer cus = new Customer();
 		try {
 			@SuppressWarnings("unchecked")
-			HashMap songHM = mapper.convertValue(cus, HashMap.class);
+			HashMap cusHM = mapper.convertValue(cus, HashMap.class);
 			// songHM.remove("id");
-			return Response.status(200).entity(mapper.writeValueAsString(songHM)).build();
+			return Response.status(200).entity(mapper.writeValueAsString(cusHM)).build();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
