@@ -125,7 +125,7 @@ public class TypeServices {
 			e.printStackTrace();
 			Response.status(500).build();
 		}
-		return Response.status(200).build();
+		return Response.status(201).build();
 	}
 
 	// Delete a type

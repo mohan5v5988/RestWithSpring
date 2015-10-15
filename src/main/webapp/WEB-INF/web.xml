@@ -31,4 +31,15 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>WEB-INF/spring-jersey2.xml</param-value>
 	</context-param>
+	
+	<!-- For HTTPS -->
+<!-- 	<security-constraint> -->
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>RestWithSpring</web-resource-name> -->
+<!-- 			<url-pattern>/*</url-pattern> -->
+<!-- 		</web-resource-collection> -->
+<!-- 		<user-data-constraint> -->
+<!-- 			<transport-guarantee>CONFIDENTIAL</transport-guarantee> -->
+<!-- 		</user-data-constraint> -->
+<!-- 	</security-constraint> -->
 </web-app>

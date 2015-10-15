@@ -115,7 +115,7 @@ public class CustomerServices {
 			e.printStackTrace();
 			Response.status(500).build();
 		}
-		return Response.status(200).entity(i).build();
+		return Response.status(201).entity(i).build();
 	}
 
 	// Update a song
@@ -138,7 +138,7 @@ public class CustomerServices {
 			e.printStackTrace();
 			Response.status(500).build();
 		}
-		return Response.status(200).build();
+		return Response.status(201).build();
 	}
 
 	// Delete a customer
