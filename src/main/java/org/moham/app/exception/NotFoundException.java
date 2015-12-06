@@ -17,6 +17,12 @@ public class NotFoundException extends GException {
 	@Override
 	public String getMessage() {
 		String m = super.getMessage();
-		return m + "The Object is { " + obj.toString() + " }";
+		String o = "";
+		try {
+			o = obj.toString();
+		} catch(NullPointerException ex){
+			o = "Empty and the Class is " + obj.getClass().getName();
+		}
+		return m + "The Object is { " + o + " }";
 	}
 }
