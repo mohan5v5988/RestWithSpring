@@ -23,19 +23,28 @@ $(document).ready(function() {
 	function hi() {
 		var hi = {
 				"tid" : 0,
-				"nid" : $("#nid").val(),
-				"type": $("#type").val(),
+				"customer" :
+					{
+						"nid": $("#nid").val(),
+					},
+				"type":
+					{
+						"type" : $("#type").val(),
+					},
 				"date" :$("#date").val(),
-				"coolie" :$("#coolie").val(),
-				"railway" :$("#railway").val(),
-				"rate" :$("#rate").val(),
-				"vat" :$("#vat").val(),
-				"bags" : $("#bags").val(),
-				"bagkg" : ""
+				"calculation" :
+					{
+						"coolie" :$("#coolie").val(),
+						"railway" :$("#railway").val(),
+						"rate" :$("#rate").val(),
+						"vat" :$("#vat").val(),
+						"bags" : parseInt($("#bags").val()),
+						"bagkg" : ""
+					}
 		};
 		var json = JSON.stringify(hi);
-		json1 = json.substring(0,json.length-3);
-		json3 = json1+array()+"}";
+		json1 = json.substring(0,json.length-4);
+		json3 = json1+array()+"}}";
 		return json3;
 	}
 	function array() {
@@ -63,7 +72,7 @@ $(document).ready(function() {
 			},
 			error : function(jqXHR, status) {
 				console.log(jqXHR);
-				alert("success");
+				alert("Failed.");
 			}
 		});
 	}
