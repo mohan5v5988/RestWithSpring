@@ -61,8 +61,12 @@ public class TypeServices {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response browseTypes(@QueryParam("offset") int offset, @QueryParam("count") int count) {
-
-		List<Type> list = typeDB.getAll();
+		List<Object> list = null;
+		try {
+			list = genericDAO.getAll(new Type());
+		} catch (GException e1) {
+			e1.printStackTrace();
+		}
 		String typeString = null;
 		try {
 			typeString = mapper.writeValueAsString(list);
@@ -87,7 +91,6 @@ public class TypeServices {
 				System.out.println(qq);
 			}
 		} catch (GException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		Type obj = new Type();
@@ -116,7 +119,7 @@ public class TypeServices {
 			Response.status(400).entity("could not read string").build();
 		}
 		try {
-			typeDB.add(c);
+			genericDAO.add(c);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();
@@ -139,7 +142,7 @@ public class TypeServices {
 			Response.status(400).entity("could not read string").build();
 		}
 		try {
-			typeDB.update(t);
+			genericDAO.update(t);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();
@@ -154,7 +157,7 @@ public class TypeServices {
 		Type t = new Type();
 		t.setType(type);
 		try {
-			typeDB.delete(t);
+			genericDAO.delete(t);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();

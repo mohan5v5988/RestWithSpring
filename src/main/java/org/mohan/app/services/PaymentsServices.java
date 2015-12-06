@@ -16,6 +16,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.moham.app.exception.GException;
+import org.mohan.app.dao.GenericDAO;
 import org.mohan.app.dao.PaymentsDB;
 import org.mohan.app.model.Payments;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,10 @@ public class PaymentsServices {
 	@Autowired
 	@Qualifier("paymentsDB")
 	PaymentsDB paymentsDB;
+	
+	@Autowired
+	@Qualifier("genericDAO")
+	GenericDAO genericDAO;
 
 	@GET
 	@Path("metadata")
@@ -57,9 +63,13 @@ public class PaymentsServices {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
 	public Response getTransactions() {
-		List<Payments> arr = null;
+		List<Object> arr = null;
+		try {
+			arr = genericDAO.getAll(new Payments());
+		} catch (GException e1) {
+			e1.printStackTrace();
+		}
 		String paymentString = null;
-		arr = paymentsDB.getAll();
 		try {
 			paymentString = mapper.writeValueAsString(arr);
 		} catch (Exception e) {
@@ -162,7 +172,7 @@ public class PaymentsServices {
 			Response.status(400).entity("could not read string").build();
 		}
 		try {
-			paymentsDB.add(p);
+			genericDAO.add(p);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();
@@ -185,7 +195,7 @@ public class PaymentsServices {
 			Response.status(400).entity("could not read string").build();
 		}
 		try {
-			paymentsDB.update(p);
+			genericDAO.update(p);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();
@@ -201,7 +211,7 @@ public class PaymentsServices {
 		Payments obj = new Payments();
 		obj.setId(id);
 		try {
-			paymentsDB.delete(obj);
+			genericDAO.delete(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();

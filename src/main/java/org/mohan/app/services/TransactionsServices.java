@@ -16,6 +16,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.moham.app.exception.GException;
+import org.mohan.app.dao.GenericDAO;
 import org.mohan.app.dao.TransactionsDB;
 import org.mohan.app.model.Transactions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,10 @@ public class TransactionsServices {
 	@Autowired
 	@Qualifier("transactionsDB")
 	TransactionsDB transactionsDB;
+	
+	@Autowired
+	@Qualifier("genericDAO")
+	GenericDAO genericDAO;
 
 	@GET
 	@Path("metadata")
@@ -61,7 +67,12 @@ public class TransactionsServices {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
 	public Response getTransactions() {
-		List<Transactions> list = transactionsDB.getAll();
+		List<Object> list = null;
+		try {
+			list = genericDAO.getAll(new Transactions());
+		} catch (GException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			return Response.status(200).entity(mapper.writeValueAsString(list)).build();
 		} catch (Exception e) {
@@ -156,14 +167,17 @@ public class TransactionsServices {
 	public Response createTransaction(String payload) {
 		Transactions t = null;
 		String i = "";
+		System.out.println(payload);
 		try {
 			t = mapper.readValue(payload, Transactions.class);
+			t.getCalculation().cal();
+			System.out.println(t);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return Response.status(400).entity("could not read string").build();
 		}
 		try {
-			transactionsDB.add(t);
+			genericDAO.add(t);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(500).build();
@@ -187,7 +201,7 @@ public class TransactionsServices {
 			return Response.status(400).entity("could not read string").build();
 		}
 		try {
-			transactionsDB.update(t);
+			genericDAO.update(t);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(500).build();
@@ -202,35 +216,11 @@ public class TransactionsServices {
 		Transactions obj = new Transactions();
 		obj.setTid(tid);
 		try {
-			transactionsDB.delete(obj);
+			genericDAO.delete(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(500).build();
 		}
 		return Response.status(200).build();
 	}
-
-	// public String getAll() {
-	// List<Transactions> transactions = transactionsDB.getAll();
-	// String out = null;
-	// try {
-	// out = mapper.writeValueAsString(transactions);
-	// } catch (JsonProcessingException e) {
-	// e.printStackTrace();
-	// }
-	// return out;
-	// }
-	//
-	// public String getByPk() {
-	// Transactions t = new Transactions();
-	// t.setTid(1);
-	// Transactions transactions = transactionsDB.getByPK(t);
-	// String out = null;
-	// try {
-	// out = mapper.writeValueAsString(transactions);
-	// } catch (JsonProcessingException e) {
-	// e.printStackTrace();
-	// }
-	// return out;
-	// }
 }

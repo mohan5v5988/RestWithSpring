@@ -1,5 +1,7 @@
 package org.mohan.app.services;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,13 +20,17 @@ import javax.ws.rs.core.Response;
 import org.moham.app.exception.GException;
 import org.mohan.app.dao.CustomerDB;
 import org.mohan.app.dao.GenericDAO;
+import org.mohan.app.model.Calculation;
 import org.mohan.app.model.Customer;
+import org.mohan.app.model.Transactions;
+import org.mohan.app.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Path("customer")
 @Service
@@ -87,8 +93,8 @@ public class CustomerServices {
 		} else if (name.equals("nothing")) {
 			cus.setNid(nid);
 			try {
-//				customerString = mapper.writeValueAsString(customerDB.getByPK(cus));
-				customerString = mapper.writeValueAsString(genericDAO.getByPK(cus));
+				customerString = mapper.writeValueAsString(customerDB.getByPK(cus));
+//				customerString = mapper.writeValueAsString(genericDAO.getByPK(cus));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -98,6 +104,8 @@ public class CustomerServices {
 			try {
 				customerString = mapper.writeValueAsString(genericDAO.findByExample(cus));
 //				customerString = mapper.writeValueAsString(customerDB.getByCName(cus));
+			} catch(GException ex){
+				customerString = "Sorry for the inconvence Please try later.";
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -119,7 +127,9 @@ public class CustomerServices {
 			Response.status(400).entity("could not read string").build();
 		}
 		try {
-			customerDB.add(c);
+			genericDAO.add(c);
+		} catch(GException ex){
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();
@@ -142,7 +152,9 @@ public class CustomerServices {
 			Response.status(400).entity("could not read string").build();
 		}
 		try {
-			customerDB.update(t);
+			genericDAO.update(t);
+		} catch(GException ex){
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();
@@ -157,7 +169,9 @@ public class CustomerServices {
 		Customer obj = new Customer();
 		obj.setNid(nid);
 		try {
-			customerDB.delete(obj);
+			genericDAO.delete(obj);
+		} catch(GException ex){
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Response.status(500).build();
