@@ -1,12 +1,10 @@
 package org.mohan.app.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.mohan.app.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,7 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository("typeDB")
-public class TypeDB implements IGenericsDB<Type> {
+public class TypeDB {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -55,7 +53,6 @@ public class TypeDB implements IGenericsDB<Type> {
 			session.flush();
 			update(obj);
 		}
-			
 		return 0;
 	}
 
@@ -66,5 +63,4 @@ public class TypeDB implements IGenericsDB<Type> {
 		session.update(obj);
 		return 0;
 	}
-
 }

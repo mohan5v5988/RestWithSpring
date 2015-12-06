@@ -15,7 +15,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.moham.app.exception.GException;
 import org.mohan.app.dao.CustomerDB;
+import org.mohan.app.dao.GenericDAO;
 import org.mohan.app.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +38,9 @@ public class CustomerServices {
 	@Qualifier("customerDB")
 	CustomerDB customerDB;
 
+	@Autowired
+	@Qualifier("genericDAO")
+	GenericDAO genericDAO;
 	// get metadata
 	@GET
 	@Path("metadata")
@@ -56,12 +61,15 @@ public class CustomerServices {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response browseCustomers(@QueryParam("offset") int offset, @QueryParam("count") int count) {
-		List<Customer> list = customerDB.getAll();
+		List<Object> list;
 		String customerString = null;
 		try {
+			list = genericDAO.getAll(new Customer());
 			customerString = mapper.writeValueAsString(list);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch(GException ex){
+			customerString = "Sorry for the inconvence Please try later.";
+		} catch (Exception ex) {
+			customerString = "Sorry for the inconvence Please try later.";
 		}
 		return Response.status(200).entity(customerString).build();
 	}
@@ -73,22 +81,23 @@ public class CustomerServices {
 	public Response getCustomers(@DefaultValue("nothing") @QueryParam("nid") String nid,
 			@DefaultValue("nothing") @QueryParam("name") String name) {
 		Customer cus = new Customer();
+		String customerString = null;
 		if (nid.equals("nothing") && name.equals("nothing")) {
 			return Response.status(Response.Status.BAD_REQUEST).entity("Please enter any value to search.").build();
 		} else if (name.equals("nothing")) {
 			cus.setNid(nid);
-			String customerString = null;
 			try {
-				customerString = mapper.writeValueAsString(customerDB.getByPK(cus));
+//				customerString = mapper.writeValueAsString(customerDB.getByPK(cus));
+				customerString = mapper.writeValueAsString(genericDAO.getByPK(cus));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return Response.status(200).entity(customerString).build();
 		} else {
 			cus.setName(name);
-			String customerString = null;
 			try {
-				customerString = mapper.writeValueAsString(customerDB.getByCName(cus));
+				customerString = mapper.writeValueAsString(genericDAO.findByExample(cus));
+//				customerString = mapper.writeValueAsString(customerDB.getByCName(cus));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

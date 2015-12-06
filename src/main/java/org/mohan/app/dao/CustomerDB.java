@@ -6,15 +6,17 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.moham.app.exception.PKException;
 import org.mohan.app.model.Customer;
-import org.mohan.app.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository("customerDB")
-public class CustomerDB implements IGenericsDB<Customer> {
+public class CustomerDB{
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -49,9 +51,14 @@ public class CustomerDB implements IGenericsDB<Customer> {
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
-	public int add(Customer obj) {
-		Session session = sessionFactory.getCurrentSession();
-		session.save(obj);
+	public int add(Customer obj) throws PKException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.save(obj);
+			session.flush();
+		}catch (org.hibernate.exception.ConstraintViolationException ex) {
+			throw new PKException(ex.getMessage());
+		}
 		return 0;
 		}
 

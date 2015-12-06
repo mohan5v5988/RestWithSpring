@@ -16,27 +16,24 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository("paymentsDB")
-public class PaymentsDB  implements IGenericsDB<Payments> {
+public class PaymentsDB {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	@Override
 	public List<Payments> getAll() {
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery("from Payments");
 		List<Payments> paymentsList = (List<Payments>) query.list();
 		return paymentsList;
 	}
-
-	@Override
+	
 	public Payments getByPK(Payments obj) {
 		Session session = sessionFactory.openSession();
 		Payments payments = (Payments)session.get(Payments.class, obj.getId());
 		return payments;
 	}
-
-	@Override
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public int delete(Payments obj) {
 		Session session = sessionFactory.getCurrentSession();
@@ -44,16 +41,14 @@ public class PaymentsDB  implements IGenericsDB<Payments> {
 		session.delete(payments);
 		return 0;
 	}
-
-	@Override
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public int add(Payments obj) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(obj);
 		return 0;
 	}
-
-	@Override
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public int update(Payments obj) {
 		Session session = sessionFactory.getCurrentSession();

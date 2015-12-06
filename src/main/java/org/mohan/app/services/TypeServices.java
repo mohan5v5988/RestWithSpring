@@ -14,6 +14,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.moham.app.exception.GException;
+import org.mohan.app.dao.GenericDAO;
 import org.mohan.app.dao.TypeDB;
 import org.mohan.app.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,10 @@ public class TypeServices {
 	@Qualifier("typeDB")
 	TypeDB typeDB;
 
+	@Autowired
+	@Qualifier("genericDAO")
+	GenericDAO genericDAO;
+	
 	@GET
 	@Path("metadata")
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -71,6 +77,19 @@ public class TypeServices {
 	@Path("{type}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getType(@PathParam("type") String type) {
+		Type o = new Type();
+		o.setRate(25.5);
+		o.setActive(true);
+		List<Object> q;
+		try {
+			q = genericDAO.findByExample(o);
+			for (Object qq : q) {
+				System.out.println(qq);
+			}
+		} catch (GException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Type obj = new Type();
 		obj.setType(type);
 		String typeString = null;
