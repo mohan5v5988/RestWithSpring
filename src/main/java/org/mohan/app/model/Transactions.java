@@ -17,26 +17,26 @@ public class Transactions {
 	@OneToOne
 	private Type type;
 	private Date date;
-	private Calculation cal = null;
+	private Calculation calculation = null;
 
 	public Transactions(){
 		
 	}
 	
-	public Transactions(Customer customer, Type type, Date date, Calculation cal) {
+	public Transactions(Customer customer, Type type, Date date, Calculation calculation) {
 		super();
 		this.customer = customer;
 		this.type = type;
 		this.date = date;
-		this.cal = cal;
+		this.calculation = calculation;
 	}
 
-	public Calculation getCal() {
-		return cal;
+	public Calculation getCalculation() {
+		return calculation;
 	}
 
-	public void setCal(Calculation cal) {
-		this.cal = cal;
+	public void setCalculation(Calculation calculation) {
+		this.calculation = calculation;
 	}
 
 	public int getTid() {
@@ -74,7 +74,7 @@ public class Transactions {
 	@Override
 	public String toString() {
 		return "Tranasactions [tid=" + tid + ", customer=" + customer.getNid() + ", type=" + type.getType() + ", date=" + date +
-				", c=" + "]" + "\n" + cal.toString();
+				", c=" + "]" + "\n" + calculation.toString();
 	}
 	
 	

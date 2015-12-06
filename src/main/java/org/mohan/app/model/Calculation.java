@@ -14,9 +14,7 @@ public class Calculation
 	int gunnie,revaze,coolie,railway;
 	String output;
 	
-	public Calculation(){
-		
-	}
+	public Calculation(){ }
 	
     public Calculation(int bags,int coolie,int railway,ArrayList<Double> bagkg,double rate,double vat)
     {
@@ -27,7 +25,11 @@ public class Calculation
     	this.rate = rate;
     	this.per = 1.0;
     	this.vat = vat;
-   // This for will generate the amount array. 
+    	this.cal();
+    }
+    
+    public void cal(){
+    	// This for will generate the amount array. 
     	for(int m=0;m<bagkg.size();m++) { amount.add(((bagkg.get(m)-1)*rate)); }
     // To calculate sum.
     	for (Double d : amount) { sum += d; }
@@ -40,6 +42,7 @@ public class Calculation
         sum=sum+kolagaram;
         totam=sum+vat+coolie+railway;
     }
+    
     double precentage(double p)
     {
         return ((p/100)*sum);
@@ -144,6 +147,7 @@ public class Calculation
 	    {
 	   		output += (m+1)+"        "+bagkg.get(m)+"       "+rate+"     "+amount.get(m)+"\n";
 	   	}
+		output += "coolie : " + this.coolie + " railway : " + this.railway + " rate : " + this.rate + " vat : " + this.vat;
     	return output;
 	}
 }
