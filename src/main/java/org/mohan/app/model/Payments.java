@@ -17,9 +17,7 @@ public class Payments {
 	private Double amount;
 	private Date date;
 	
-	public Payments() {
-		
-	}
+	public Payments() { }
 	
 	public Payments(Customer customer, Double amount, Date date) {
 		super();

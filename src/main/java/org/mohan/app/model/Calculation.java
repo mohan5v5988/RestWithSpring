@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Calculation 
-{
+public class Calculation {
 	int bags;
 	ArrayList<Double> bagkg = new ArrayList<Double>();
 	ArrayList<Double> amount = new ArrayList<Double>();
@@ -16,8 +15,7 @@ public class Calculation
 	
 	public Calculation(){ }
 	
-    public Calculation(int bags,int coolie,int railway,ArrayList<Double> bagkg,double rate,double vat)
-    {
+    public Calculation(int bags,int coolie,int railway,ArrayList<Double> bagkg,double rate,double vat) {
     	this.bags = bags;
     	this.coolie = coolie;
     	this.railway = railway;
@@ -28,7 +26,7 @@ public class Calculation
     	this.cal();
     }
     
-    public void cal(){
+    public void cal() {
     	// This for will generate the amount array. 
     	for(int m=0;m<bagkg.size();m++) { amount.add(((bagkg.get(m)-1)*rate)); }
     // To calculate sum.
@@ -43,15 +41,13 @@ public class Calculation
         totam=sum+vat+coolie+railway;
     }
     
-    double precentage(double p)
-    {
+    private double precentage(double p) {
         return ((p/100)*sum);
     }
-    double twoDecimal(double d)
-    {
+    
+    private double twoDecimal(double d) {
     	return ((int) Math.round(d*100))/100.0;
     }
-    
     
     public int getBags() {
 		return bags;
@@ -143,8 +139,7 @@ public class Calculation
 	
 	public String toString() {
 		output = "B.No"+"   "+"Kg  "+"       "+"Rate  "+"   "+"Total Amount  "+"\n";
-		for(int m=0;m<bags;m++)
-	    {
+		for(int m=0;m<bags;m++) {
 	   		output += (m+1)+"        "+bagkg.get(m)+"       "+rate+"     "+amount.get(m)+"\n";
 	   	}
 		output += "coolie : " + this.coolie + " railway : " + this.railway + " rate : " + this.rate + " vat : " + this.vat;

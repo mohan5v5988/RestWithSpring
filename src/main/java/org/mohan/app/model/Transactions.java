@@ -19,9 +19,7 @@ public class Transactions {
 	private Date date;
 	private Calculation calculation = null;
 
-	public Transactions(){
-		
-	}
+	public Transactions(){ }
 	
 	public Transactions(Customer customer, Type type, Date date, Calculation calculation) {
 		super();
@@ -76,6 +74,4 @@ public class Transactions {
 		return "Tranasactions [tid=" + tid + ", customer=" + customer.getNid() + ", type=" + type.getType() + ", date=" + date +
 				", c=" + "]" + "\n" + calculation.toString();
 	}
-	
-	
 }
