@@ -1,7 +1,5 @@
 package org.mohan.app.services;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,10 +18,9 @@ import javax.ws.rs.core.Response;
 import org.moham.app.exception.GException;
 import org.mohan.app.dao.CustomerDB;
 import org.mohan.app.dao.GenericDAO;
-import org.mohan.app.model.Calculation;
 import org.mohan.app.model.Customer;
+import org.mohan.app.model.Payments;
 import org.mohan.app.model.Transactions;
-import org.mohan.app.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -70,6 +67,8 @@ public class CustomerServices {
 		List<Object> list;
 		String customerString = null;
 		try {
+			System.out.println(mapper.writeValueAsString(new Payments()));
+			System.out.println(mapper.writeValueAsString(new Transactions()));
 			list = genericDAO.getAll(new Customer());
 			customerString = mapper.writeValueAsString(list);
 		} catch(GException ex){

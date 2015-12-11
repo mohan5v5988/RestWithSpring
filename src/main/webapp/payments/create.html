@@ -8,12 +8,12 @@
 	base_url = "http://localhost:8080/RestWithSpring/rest/payment";
 	meta_url = "http://localhost:8080/RestWithSpring/rest/payment/metadata/";
 	$(document).ready(function() {
-			$.getJSON(meta_url,function(data) {
-				console.log(data)
-				$.each(data,function(key, value) {
-					$("#table").append("<tr><td>Please enter "+ key + "</td><td><input type='text' name='" +key+"'" + "></td></tr>");
-				});
-			});
+// 			$.getJSON(meta_url,function(data) {
+// 				console.log(data)
+// 				$.each(data,function(key, value) {
+// 					$("#table").append("<tr><td>Please enter "+ key + "</td><td><input type='text' name='" +key+"'" + "></td></tr>");
+// 				});
+// 			});
 		$.fn.serializeObject = function() {
 			var o = {};
 			var a = this.serializeArray();
@@ -29,16 +29,31 @@
 			});
 			return o;
 		};
+		function getJSONString() {
+			var json = {
+					"date" : $("#date").val(),
+					"amount" : $("#amount").val(),
+					"customer" :
+						{
+							"nid": $("#nid").val()
+						}
+			};
+			var aaa = JSON.stringify(json);
+			console.log("this is the string.");
+			console.log(aaa);
+			return aaa;
+		};
 		$('#form').submit(function() {
 			console.log($('#form').serializeObject());
-			postData($('#form').serializeObject());
+// 			postData($('#form').serializeObject());
+			postData(getJSONString());
 			return false;
 			});
 			function postData(data) {
 				$.ajax({
 					type : "POST",
 					url : "http://localhost:8080/RestWithSpring/rest/payment",
-					data : JSON.stringify(data),
+					data : data,
 					contentType : "application/json; charset=utf-8",
 					crossDomain : true,
 					dataType : "json",
@@ -63,6 +78,18 @@
 			<tr>
 				<th></th>
 				<th></th>
+			</tr>
+			<tr>
+				<td>Please enter Customer nid</td>
+				<td><input type="text" id="nid" ></td>
+			</tr>
+			<tr>
+				<td>Please enter the amount</td>
+				<td><input type="text" id="amount" ></td>
+			</tr>
+			<tr>
+				<td>Please enter the date</td>
+				<td><input type="text" id="date" ></td>
 			</tr>
 		</table>
 		<input type="Submit">

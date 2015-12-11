@@ -166,6 +166,7 @@ public class PaymentsServices {
 	public Response createPayment(String payload) {
 		Payments p = null;
 		try {
+			System.out.println(payload);
 			p = mapper.readValue(payload, Payments.class);
 		} catch (Exception ex) {
 			ex.printStackTrace();
